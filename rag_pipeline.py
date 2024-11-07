@@ -1,5 +1,5 @@
 from langchain.chains import RetrievalQA
-from langchain.llms import OpenAI
+# from langchain.llms import OpenAI
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 
 model_name = "EleutherAI/gpt-neo-2.7B"

@@ -36,7 +36,6 @@ if search_button and user_query:
     
     st.subheader("Top 5 Relevant Articles Based on Your Query")
     
-    # Display the summaries for each article
     for idx, article in enumerate(relevant_articles):
         st.write(f"### Article {idx + 1}:")
         

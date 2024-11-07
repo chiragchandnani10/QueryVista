@@ -24,21 +24,10 @@ Before you begin, make sure you have the following installed:
 - **pip** (Python package installer)
 - **Docker** (for containerized deployment, optional but recommended)
 
-### 1. Clone the Repository:
-```bash
-git clone https://github.com/yourusername/QueryVista.git
-cd QueryVista
-```
+
 
 ### 2. Install Dependencies:
-First, create a virtual environment (optional but recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # For Linux/macOS
-venv\Scripts\activate  # For Windows
-```
 
-Then, install the required dependencies:
 ```bash
 pip install -r requirements.txt
 ```

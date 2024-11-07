@@ -1,6 +1,3 @@
-Here's a **GitHub README** template for your **QueryVista** project. It provides an overview, setup instructions, and how to use the application.
-
----
 
 # QueryVista: News Article Summarizer and Ranker with RAG Pipeline
 

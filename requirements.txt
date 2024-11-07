@@ -1,0 +1,8 @@
+streamlit
+langchain
+faiss-cpu
+transformers
+chromadb
+openai
+beautifulsoup4
+requests

@@ -4,13 +4,29 @@ from langchain.schema import Document
 
 def init_vector_store():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    vector_store = Chroma(embedding_function=embeddings, persist_directory="db")
+    # Initialize Chroma with a persistent directory for storing vectors
+    vector_store = Chroma(
+        embedding_function=embeddings,
+        persist_directory="db"  # This directory will store Chroma’s database files
+    )
+    
+    # Persist and reconnect
+    vector_store.persist()
     return vector_store, embeddings
 
 def add_articles_to_store(vector_store, article_contents):
     docs = [Document(page_content=article) for article in article_contents]
     vector_store.add_documents(docs)
 
-def search_articles(vector_store, query, top_k=5):
-    results = vector_store.similarity_search(query, top_k=top_k)
-    return results
+def search_articles(vector_store, user_query, search_type, top_k=2):
+#     retriever = vector_store.as_retriever(
+#     search_type="similarity_score_threshold", search_kwargs={"score_threshold": 0.2,"k": 1}
+# )
+#     return retriever
+
+    # relevant_articles = vector_store.search(user_query,search_type=search_type, top_k=2)
+
+
+    relevant_articles = vector_store.similarity_search(user_query, k=top_k)
+
+    return relevant_articles

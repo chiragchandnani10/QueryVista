@@ -2,6 +2,8 @@ from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+from langchain.schema.runnable import RunnableMap, RunnablePassthrough
+
 # from langchain.llms import OpenAI
 from transformers import GPTNeoForCausalLM, GPT2Tokenizer
 
@@ -10,29 +12,15 @@ model = GPTNeoForCausalLM.from_pretrained(model_name)
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
 
 def get_prompt_template_text(documents, query):
-    return  """You are an expert news summarizer and analyzer. Your task is to summarize and rank the following news articles in response to the user's query. Focus on providing concise, relevant information.
+    return  """You are an expert news summarizer and analyzer. Your task is to summarize  the following news articles in response to the user's query. Focus on providing concise, relevant information.
 
-**Instructions:**
-1. Read the user query to understand the main focus.
-2. Review the provided articles to extract key points related to the query.
-3. Generate a clear, brief summary highlighting the most important details relevant to the user's query.
-4. Rank the articles by relevance based on their content and the user query.
+Given Context : {documents}
 
-**User Query:** "{query}"
+Given User Query: {query}
 
-**Articles:**
-{documents}
 
-**Output:**
-1. **Top Summary:** Provide a concise summary that best answers the user's query.
-2. **Relevant Articles:** List the most relevant articles in descending order of relevance, including a one-sentence summary for each.
 
-**Format:**
-- **Top Summary:** [Your detailed summary here]
-- **Relevant Articles:**
-    1. [Title or identifier of Article 1] - [One-sentence summary]
-    2. [Title or identifier of Article 2] - [One-sentence summary]
-    ...
+Output: Give a good concise summary
 
 Only include information directly relevant to the user query. Avoid unnecessary details.
 
@@ -41,15 +29,15 @@ Only include information directly relevant to the user query. Avoid unnecessary 
 def get_prompt_template():
     return PromptTemplate(
         input_variables=["documents", "query"],
-        template = """You are an expert news summarizer and analyzer. Your task is to summarize the following news articles in response to the user's query. Focus on providing concise, relevant information.
+        template = """You are an expert news summarizer and analyzer. Your task is to summarize the following news articles with respect to the user's query. Focus on providing concise, relevant information.
 
-**User Query:** "{query}"
+Given Context : {documents}
 
-**Context:**
-{documents}
+Given User Query: {query}
 
-**Output:**
-1. **Top Summary:** Provide a concise summary that best answers the user's query.
+
+
+Output: Give a good concise summary
 
 Only include information directly relevant to the user query. Avoid unnecessary details.
 
@@ -60,19 +48,21 @@ Only include information directly relevant to the user query. Avoid unnecessary 
 
 
 def format_docs(docs):
-    return "\n\n".join(doc for doc in docs)
+    return " ".join(doc for doc in docs)
 
 def generate_summary(input_data):
     # print(type(input_data))
     # documents = input_data['documents']
     # query = input_data['query']
     # input_text = get_prompt_template_text(input_data['documents'],input_data['documents'])
+    print("INPUTDATA_",input_data)
+
     input_data = str(input_data)
     # Tokenize the input
     test_input = "The sky is blue, and the grass is green. The sun shines brightly in the sky."
 
-    tokenizer.pad_token = tokenizer.eos_token
-
+    tokenizer.pad_token = tokenizer.eos_token  #Padding token set as EOS (End of Sentence)
+    print("Len of prompt",len(input_data))
     inputs = tokenizer(input_data, return_tensors="pt", padding=True, truncation=True,max_length=2000)
     
     # Generate the summary
@@ -88,17 +78,29 @@ def generate_summary(input_data):
     )    
     summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
     print(f"SUMMARYTEXT is {summary_text}")
+    # Remove any residual parts of the input prompt if necessary
+    if input_data in summary_text:
+        summary_text = summary_text.split(input_data)[-1].strip()
+
+    print(f"SUMMARYTEXT is {summary_text}")
+
     return summary_text
+
+def fit_in_prompt(input_str):
+    prompt = get_prompt_template()
+    print("INPUT STRING FIT IN PROMPT ",input_str)
+    return prompt.format(query=input_str['query']['query'],documents = input_str['query']['documents'])
+
 
 def init_rag_pipeline(vector_store):
     retriever = vector_store.as_retriever()
     prompt_template = get_prompt_template()
     qa_chain = (
-    {
-        "documents":RunnablePassthrough() | format_docs,
-        "query": RunnablePassthrough(),
-    }
-    | prompt_template
+    RunnableMap({  # Wrapping the dictionary in RunnableMap
+            "documents": RunnablePassthrough() | format_docs,
+            "query": RunnablePassthrough(),
+        })
+    | fit_in_prompt
     | generate_summary
     | StrOutputParser()
 )

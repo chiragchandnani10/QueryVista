@@ -15,7 +15,8 @@ def init_vector_store():
     return vector_store, embeddings
 
 def add_articles_to_store(vector_store, article_contents):
-    docs = [Document(page_content=article) for article in article_contents]
+    print(f"Articles fetched from the sites: {article_contents}")
+    docs = [Document(page_content=article,id=idx) for idx,article in enumerate(article_contents)]
     vector_store.add_documents(docs)
 
 def search_articles(vector_store, user_query, search_type, top_k=2):

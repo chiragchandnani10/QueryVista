@@ -68,9 +68,10 @@ if search_button and user_query:
 
 
     print(formatted_articles)
-    overall_summary_result = qa_chain.invoke({"documents":formatted_articles,"query":user_query})
     st.subheader("It gives like this output, as its a Autocompletion GPT2-NEO 125M model")
     st.subheader("You can change the model from rag_pipeline.py")
+    overall_summary_result = qa_chain.invoke({"documents":formatted_articles,"query":user_query})
+
 
     st.subheader("Overall Summary Based on Retrieved Articles")
     st.write(overall_summary_result)

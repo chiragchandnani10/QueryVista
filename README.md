@@ -1,5 +1,5 @@
 
-# QueryVista: News Article Summarizer and Ranker with RAG Pipeline
+# QueryVista: News Article Summarizer and Ranker with RAG Pipeline (Project Under The Course - Natural Language Processing)
 
 *Demo* - https://youtu.be/BzouxsT9nVQ
 **QueryVista** is a powerful application that summarizes and ranks news articles using a Retrieval-Augmented Generation (RAG) pipeline. By leveraging **LangChain**, **ChromaDB**, and **Streamlit**, this app allows users to input news article URLs, store them in a vectorized database, and retrieve relevant summaries based on user queries.

@@ -1,11 +1,11 @@
 
-# QueryVista: News Article Summarizer and Ranker with RAG Pipeline (Project Under The Course - Natural Language Processing)
+# QueryVista: News Article Answerer and Ranker with RAG Pipeline (Project Under The Course - Natural Language Processing)
 
 *Demo* - https://youtu.be/BzouxsT9nVQ
-**QueryVista** is a powerful application that summarizes and ranks news articles using a Retrieval-Augmented Generation (RAG) pipeline. By leveraging **LangChain**, **ChromaDB**, and **Streamlit**, this app allows users to input news article URLs, store them in a vectorized database, and retrieve relevant summaries based on user queries.
+**QueryVista** is a powerful application that summarizes and ranks news articles using a Retrieval-Augmented Generation (RAG) pipeline. By leveraging **LangChain**, **ChromaDB**, and **Streamlit**, this app allows users to input news article URLs, store them in a vectorized database, and retrieve relevant answers based on user queries.
 
 ## Features:
-- **RAG-based Summarization**: Uses a combination of **retrieval** and **generation** techniques to summarize and rank articles.
+- **RAG-based Summarization**: Uses a combination of **retrieval** and **generation** techniques to answer and rank articles.
 - **Vector Database**: Stores articles as vectorized embeddings using **ChromaDB** for fast and efficient retrieval.
 - **Streamlit Interface**: A simple web interface for users to input article URLs and query for relevant summaries.
 - **Summarization**: Uses a free text summarization model from Hugging Face to summarize articles.
@@ -60,9 +60,9 @@ The app will be accessible at `http://localhost:8501`.
 
 1. **Input News Articles**: On the homepage, you can input URLs of news articles. The application will scrape and process the content, storing it in the vector database.
    
-2. **Query for Summaries**: Once articles are stored, you can enter a query related to any of the stored articles. The app will rank the articles based on their relevance to the query and summarize them for you.
+2. **Query for Summaries**: Once articles are stored, you can enter a query related to any of the stored articles. The app will rank the articles based on their relevance to the query and answer your query for you.
 
-3. **View Summaries**: The summarized content of the top-ranked articles will be displayed on the screen. You can view the original article or the generated summary directly.
+3. **View Summaries**: The summarized content of the top-ranked articles will be displayed on the screen. You can view the original article or the generated answer directly.
 
 ## Code Structure:
 

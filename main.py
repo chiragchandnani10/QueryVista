@@ -7,7 +7,7 @@ vector_store, embeddings = init_vector_store()
 qa_chain = init_rag_pipeline(vector_store)
 
 # Streamlit UI
-st.title("QueryVista - An automated RAG-based Ranker and Answerer (Gives top 1 articles)")
+st.title("QueryVista - An automated RAG-based Ranker and Answerer (Gives top 1 article)")
 st.header("Project under the course Natural Language Processing - BCSE409L")
 
 st.header("Add News Article URLs")

@@ -12,7 +12,7 @@ model = GPTNeoForCausalLM.from_pretrained(model_name)
 tokenizer = GPT2Tokenizer.from_pretrained(model_name)
 
 def get_prompt_template_text(documents, query):
-    return  """You are an expert news summarizer and analyzer. Your task is to summarize  the following news articles in response to the user's query. Focus on providing concise, relevant information.
+    return  """You are an expert article question answerer and analyzer. Your task is to answer the following news articles in response to the user's query. Focus on providing concise, relevant information.
 
 Given Context : {documents}
 
@@ -20,7 +20,7 @@ Given User Query: {query}
 
 
 
-Output: Give a good concise summary
+Output: Give a good concise and to the point answer
 
 Only include information directly relevant to the user query. Avoid unnecessary details.
 
@@ -29,7 +29,7 @@ Only include information directly relevant to the user query. Avoid unnecessary 
 def get_prompt_template():
     return PromptTemplate(
         input_variables=["documents", "query"],
-        template = """You are an expert news summarizer and analyzer. Your task is to summarize the following news articles with respect to the user's query. Focus on providing concise, relevant information.
+        template = """You are an expert article question answerer and analyzer. Your task is to answer the following news articles in response to the user's query. Focus on providing concise, relevant information.
 
 Given Context : {documents}
 
@@ -37,7 +37,7 @@ Given User Query: {query}
 
 
 
-Output: Give a good concise summary
+Output: Give a good concise and to the point answer
 
 Only include information directly relevant to the user query. Avoid unnecessary details.
 

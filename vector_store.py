@@ -19,7 +19,7 @@ def add_articles_to_store(vector_store, article_contents):
     docs = [Document(page_content=article,id=idx) for idx,article in enumerate(article_contents)]
     vector_store.add_documents(docs)
 
-def search_articles(vector_store, user_query, search_type, top_k=2):
+def search_articles(vector_store, user_query, search_type, top_k=1):
 #     retriever = vector_store.as_retriever(
 #     search_type="similarity_score_threshold", search_kwargs={"score_threshold": 0.2,"k": 1}
 # )
